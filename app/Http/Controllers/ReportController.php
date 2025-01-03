@@ -51,19 +51,19 @@ class ReportController extends Controller
 
     public function store(Request $request): RedirectResponse
 {
-    
     $request->validate([
-        'file_attachment' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,txt|max:10240', 
+        'file_attachment' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx,txt|max:10240',
     ]);
-
-   
-    $filePath = null;
-    if ($request->hasFile('file_attachment') && $request->file('file_attachment')->isValid()) {
-        
-        $filePath = $request->file('file_attachment')->store('proof_of_concepts', 'public');
-    }
-
+    $fileName = null;
     
+    if ($request->hasFile('file_attachment')) {
+        $file = $request->file('file_attachment');
+        if ($file->isValid()) {
+            $fileName = $file->getClientOriginalName();
+            $path = $file->storeAs('attachments', $fileName, 'public');
+        } 
+    } 
+
     $formData = [
         'researcher_id' => Auth::user()->id,
         'program_id' => $request->has('program_id') ? $request['program_id'] : null,
@@ -71,16 +71,16 @@ class ReportController extends Controller
         'description' => $request['description'],
         'severity' => $request['severity'],
         'status' => 'open',
-        'proof_of_concept' => $filePath, 
+        'proof_of_concept' => $fileName, 
     ];
 
-    
     $newReport = Report::create($formData);
 
-   
     Alert::success('Report Created', 'Report created successfully!');
 
     return redirect()->route('home');
 }
+
+
 
 }
