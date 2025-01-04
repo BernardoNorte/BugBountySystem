@@ -3,10 +3,12 @@
 
 @section('content')
 
+@if(Auth::user())
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
     <li class="breadcrumb-item"><strong>{{ Auth::user()->name }}</strong></li>
 </ol>
+@endif
 <form id="form_report" method="POST" action="{{ route('reports.store') }}" enctype="multipart/form-data" class="d-flex flex-column align-items-center">
     @csrf
     <div class="col-md-6 mb-3 form-floating">
@@ -29,6 +31,11 @@
     <div class="form-floating col-md-6 mb-3">
         <textarea class="form-control" name="description" id="inputDescription" rows="5" maxlength="5000">{{ old('description', $report->description) }}</textarea>
         <label for="inputDescription" class="form-label">Description</label>
+    </div>
+
+    <div class="form-floating col-md-6 mb-3">
+        <textarea class="form-control" name="stepsToReproduce" id="inputStepsToReproduce" rows="5" maxlength="5000">{{ old('steps_to_reproduce', $report->steps_to_reproduce) }}</textarea>
+        <label for="inputStepsToReproduce" class="form-label">Steps to reproduce</label>
     </div>
 
     <div class="form-group col-md-6 mb-3 form-floating">

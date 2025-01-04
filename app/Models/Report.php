@@ -23,7 +23,8 @@ class Report extends Model
         'severity',
         'status',
         'proof_of_concept',
-        'attachments'
+        'attachments',
+        'steps_to_reproduce'
     ];
 
     public function user(): BelongsTo

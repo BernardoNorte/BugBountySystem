@@ -3,8 +3,13 @@
 @section('content')
 
 <ol class="breadcrumb">
+    @if(Auth::user()->type == 'C')
+    <li class="breadcrumb-item"><a href="{{ route('reports.myReports') }}">Home</a></li>
+    <li class="breadcrumb-item"><strong>{{ $report->title }}</strong></li>
+    @else
     <li class="breadcrumb-item"><a href="{{ route('reports.index') }}">Home</a></li>
     <li class="breadcrumb-item"><strong>{{ $report->title }}</strong></li>
+    @endif
 </ol>
 
 <div class="container">
@@ -32,6 +37,11 @@
                     </div>
 
                     <div class="form-group">
+                        <label for="stepsToReproduce"><strong>Steps To Reproduce</strong></label>
+                        <p>{{ $report->steps_to_reproduce }}</p>
+                    </div>
+
+                    <div class="form-group">
                         <label for="severity"><strong>Severity</strong></label>
                         <p>{{ $report->severity }}</p>
                     </div>
@@ -51,7 +61,12 @@
                     </div>
 
                     <div class="my-3">
-                        <a href="{{ route('reports.index') }}" class="btn btn-secondary">Back to Reports</a>
+                        @if(Auth::user()->type == 'C')
+                            <a href="{{ route('reports.myReports') }}" class="btn btn-secondary">Back to Reports</a>
+                        @else
+                            <a href="{{ route('reports.index') }}" class="btn btn-secondary">Back to Reports</a>
+                        @endif
+                        
                     </div>
                 </div>
             </div>

@@ -95,8 +95,13 @@
                 <nav class="sb-sidenav accordion" id="sidenavAccordion">
                     <div class="sb-sidenav-menu">
                         <div class="nav">
-                            <a class="nav-link {{ Route::currentRouteName() == 'root' ? 'active' : '' }}"
-                                href="">
+                            <a class="nav-link"
+                                href=" {{ route('reports.myReports') }}">
+                                <div class="sb-sidenav-menu-heading"><i class="fas fa-home"></i></div>
+                                My Reports
+                            </a>
+                            <a class="nav-link"
+                                href=" {{ route('home') }}">
                                 <div class="sb-sidenav-menu-heading"><i class="fas fa-home"></i></div>
                                 Program List
                             </a>
