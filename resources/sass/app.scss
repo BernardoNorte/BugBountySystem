@@ -6,3 +6,9 @@
 
 // Bootstrap
 @import 'bootstrap/scss/bootstrap';
+
+// Lbc only
+@import    '../views/lbc/assets/sass/app';
+
+// Lbc with theme liara (if you activate theme liara)
+// @import    '../views/lbc/assets/sass/app-with-theme-liara';

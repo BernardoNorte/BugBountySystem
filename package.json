@@ -8,12 +8,15 @@
     "devDependencies": {
         "@popperjs/core": "^2.11.6",
         "axios": "^1.6.4",
-        "bootstrap": "^5.2.3",
+        "bootstrap": "^5.2.0-beta1",
         "laravel-vite-plugin": "^1.0",
         "sass": "^1.56.1",
         "vite": "^5.0"
     },
     "dependencies": {
-        "bootstrap-icons": "^1.11.3"
+        "bootstrap-icons": "^1.11.3",
+        "popper.js": "^1.16.1",
+        "prismjs": "^1.29.0",
+        "vanilla-lazyload": "^19.1.3"
     }
 }

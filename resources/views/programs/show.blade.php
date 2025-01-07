@@ -51,9 +51,11 @@
 
                                     <div class="row mt-5">
                                         <div class="col-md-12">
+                                            @if(Auth::user()->type == 'C')
                                             <a class="btn btn-outline-danger btn-lg"
                                                 href="{{ route('reports.custom', $program) }}">
                                                 <i class="fas fa-exclamation-triangle"></i> Report Vulnerability</a>
+                                            @endif
                                             <a href="{{ route('home') }}" class="btn btn-outline-secondary btn-lg">Back to Programs</a>
                                         </div>
                                     </div>

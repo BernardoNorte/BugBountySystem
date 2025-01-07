@@ -13,6 +13,8 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.7/dist/sweetalert2.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
 
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
@@ -57,9 +59,9 @@
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 <span class="me-2">
-                                    @if(Auth::user()->money == null)
+                                    @if(Auth::user()->money == null && Auth::user()->type == 'C')
                                     0.00€
-                                    @else
+                                    @elseif(Auth::user()->type == 'C')
                                     {{ Auth::user()->money }}€
                                     @endif
                                 </span>
@@ -97,16 +99,20 @@
                             @auth
                             @if(Auth::user()->type == 'C')
                             <a class="nav-link" href=" {{ route('reports.myReports') }}">
-                                <div class="sb-sidenav-menu-heading"><i class="fas fa-home"></i></div>
+                                <div class="sb-sidenav-menu-heading"><i class="bi bi-flag-fill"></i></div>
                                 My Reports
+                            </a>
+                            <a class="nav-link" href=" {{ route('rewards.myRewards') }}">
+                                <div class="sb-sidenav-menu-heading"><i class="bi bi-wallet"></i></div>
+                                Transaction History
                             </a>
                             @else
                             <a class="nav-link" href=" {{ route('reports.index') }}">
-                                <div class="sb-sidenav-menu-heading"><i class="fas fa-home"></i></div>
+                                <div class="sb-sidenav-menu-heading"><i class="bi bi-flag-fill"></i></div>
                                 Reports
                             </a>
                             <a class="nav-link" href=" {{ route('rewards.myRewards') }}">
-                                <div class="sb-sidenav-menu-heading"><i class="fas fa-home"></i></div>
+                                <div class="sb-sidenav-menu-heading"><i class="bi bi-wallet"></i></div>
                                 Payments
                             </a>
                             @endif

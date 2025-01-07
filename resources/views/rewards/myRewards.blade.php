@@ -14,7 +14,8 @@
             <thead>
                 <tr>
                     <th>Amount</th>
-                    <th>Researcher ID</th>
+                    <th>Report</th>
+                    <th>Issued By</th>
                     <th>Issued At</th>
                 </tr>
             </thead>
@@ -22,7 +23,8 @@
                 @forelse ($payments as $payment)
                     <tr>
                         <td>{{ number_format($payment->amount, 2) }}€</td>
-                        <td>{{ $payment->researcher_id }}</td>
+                        <td>{{ $payment->report->title }}
+                        <td>{{ $payment->company->name }}</td>
                         <td>{{ $payment->issued_at }}</td>
                     </tr>
                 @empty

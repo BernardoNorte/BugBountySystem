@@ -35,11 +35,11 @@
                     </div>
 
                     <div class="mb-3 form-floating">
-                        @if($user->money == null)
+                        @if($user->money == null && Auth::user()->type == 'C')
                         <input type="text" class="form-control" name="money" id="inputMoney"
                             value="0.00€">
                         <label for="inputMoney" class="form-label">Money</label>
-                        @else
+                        @elseif(Auth::user()->type == 'C')
                         <input type="text" class="form-control" name="money" id="inputMoney"
                             value="{{ old('money', $user->money) }}€">
                         <label for="inputMoney" class="form-label">Money</label>

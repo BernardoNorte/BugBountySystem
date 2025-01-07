@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Models\Program;
 use App\Models\User;
+use App\Models\Reward;
 
 class ReportController extends Controller
 {
@@ -64,16 +65,15 @@ class ReportController extends Controller
 
 
     public function create(): View
-{
-    $newReport = new Report();
-    
-    // Filtra os programas cujo date_limit seja maior que a data atual
-    $activePrograms = Program::whereDate('date_limit', '>=', now()->toDateString())->get();
-    
-    return view('reports.create')
-        ->with('report', $newReport)
-        ->with('allPrograms', $activePrograms); // Envia apenas os programas com date_limit no futuro ou igual à data atual
-}
+    {
+        $newReport = new Report();
+
+        $activePrograms = Program::whereDate('date_limit', '>=', now()->toDateString())->get();
+
+        return view('reports.create')
+            ->with('report', $newReport)
+            ->with('allPrograms', $activePrograms);
+    }
 
 
 
@@ -172,29 +172,82 @@ class ReportController extends Controller
         $request->validate([
             'status' => 'required|in:Open,in_review,Resolved,Rejected',
         ]);
-        $report->update(['status' => $request->status]);
 
+        $report->update(['status' => $request->status]);
+        
         if ($report->status == 'Rejected') {
             Alert::error('Status Updated', 'The report status has been rejected.');
             return redirect()->route('reports.index');
         }
+        Alert::success('Status Updated', 'The report status has been updated successfully.');
+        if ($report->status == 'Resolved' && $report->program) {
 
-        if ($report->status == 'Resolved') {
+
+            $existingReward = Reward::where('report_id', $report->id)->first();
+
+            if ($existingReward) {
+                
+                Alert::error('Payment Rejected', 'This report has already been paid for.');
+                return redirect()->route('reports.index');
+            }
+
             $program = $report->program;
-
             $rewardAmount = $program->rewards_info;
 
             $user = $report->user;
             $newMoneyAmount = $user->money + $rewardAmount;
 
             $user->update(['money' => $newMoneyAmount]);
-            //CRIAR TAMBEM UMA ENTRADA NA TABELA REWARDS PARA PODER TER UM HISTORICO
+
+            $newReward = new Reward();
+            $newReward->report_id = $report->id;
+            $newReward->researcher_id = $report->researcher_id;
+            $newReward->amount = $rewardAmount;
+            $newReward->created_by = Auth::user()->id;
+            $newReward->save();
+
             Alert::success('Status Updated', 'The report status has been updated successfully and the reward has been issued.');
         }
+
+
+
         return redirect()->route('reports.index');
     }
 
+    public function pay(Request $request, Report $report)
+    {
+        if ($report->status == 'Resolved') {
+            $request->validate([
+                'payment_amount' => 'required|numeric|min:0',
+            ]);
 
+            $existingReward = Reward::where('report_id', $report->id)->first();
+
+            if ($existingReward) {
+                
+                Alert::error('Payment Rejected', 'This report has already been paid for.');
+                return redirect()->route('reports.index');
+            }
+
+            $user = $report->user;
+            $paymentAmount = $request->payment_amount;
+            $newMoneyAmount = $user->money + $paymentAmount;
+
+            $user->update(['money' => $newMoneyAmount]);
+
+            $newReward = new Reward();
+            $newReward->report_id = $report->id;
+            $newReward->researcher_id = $report->researcher_id;
+            $newReward->amount = $paymentAmount;
+            $newReward->created_by = Auth::user()->id;
+            $newReward->save();
+
+            Alert::success('Payment Successful', 'The payment has been issued successfully.');
+            return redirect()->route('reports.index');
+        }
+        Alert::error('Payment Rejected', 'The payment has been rejected, report isn´t resolved.');
+        return redirect()->route('reports.index');
+    }
 
 
     public function destroy(Report $report): RedirectResponse

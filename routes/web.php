@@ -27,6 +27,8 @@ Route::patch('/reports/{report}/status', [ReportController::class, 'updateStatus
 
 Route::get('/rewards', [RewardsController::class, 'myPayments'])->name('rewards.myRewards');
 
+Route::post('/reports/{report}/pay', [ReportController::class, 'pay'])->name('reports.pay');
+
 Auth::routes();
 
 

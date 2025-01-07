@@ -31,7 +31,7 @@ class Reward extends Model
         return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
-    public function reports(): BelongsTo
+    public function report(): BelongsTo
     {
         return $this->belongsTo(Report::class, 'report_id', 'id');
     }
