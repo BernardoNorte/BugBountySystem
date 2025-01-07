@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Program;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class ProgramsController extends Controller
 {
@@ -27,6 +28,8 @@ class ProgramsController extends Controller
 
         $programs = $programQuery->paginate(8);
 
+        
+        
         return view('home', compact('programs', 'nameFilter'));
     }
 
@@ -34,6 +37,17 @@ class ProgramsController extends Controller
 
     public function show(Program $program): View
     {
-        return view('programs.show')->withProgram($program);
+        $programId = $program->id;
+        $users = User::whereHas('reports', function ($query) use ($programId) {
+            $query->where('program_id', $programId);
+        })
+            ->withCount(['reports' => function ($query) use ($programId) {
+                $query->where('program_id', $programId);
+            }])
+            ->orderByDesc('reports_count')
+            ->take(3)
+            ->get();
+        return view('programs.show', compact('program', 'users'));
+
     }
 }

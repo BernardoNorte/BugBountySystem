@@ -121,7 +121,7 @@
                                 <div class="sb-sidenav-menu-heading"><i class="fas fa-home"></i></div>
                                 Program List
                             </a>
-                            <a class="nav-link" href="">
+                            <a class="nav-link" href=" {{ route('leaderboard.index') }}">
                                 <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                                 Leaderboard
                             </a>

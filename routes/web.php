@@ -5,6 +5,7 @@ use App\Http\Controllers\ProgramsController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\RewardsController;
+use App\Http\Controllers\LeaderboardController;
 
 Route::get('home', [ProgramsController::class, 'index'])->name('home');
 Route::get('/', [ProgramsController::class, 'index'])->name('home');
@@ -28,6 +29,8 @@ Route::patch('/reports/{report}/status', [ReportController::class, 'updateStatus
 Route::get('/rewards', [RewardsController::class, 'myPayments'])->name('rewards.myRewards');
 
 Route::post('/reports/{report}/pay', [ReportController::class, 'pay'])->name('reports.pay');
+
+Route::get('/leaderboard', [LeaderboardController::class, 'usersWithMostReports'])->name('leaderboard.index');
 
 Auth::routes();
 

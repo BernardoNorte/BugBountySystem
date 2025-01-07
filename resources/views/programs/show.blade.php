@@ -11,12 +11,11 @@
 
 <body id="page-top">
     <div id="wrapper">
-
         <div id="content-wrapper" class="d-flex flex-column" style="margin-left: 150px;">
             <div id="content">
                 <div class="container-fluid mt-5">
-                    <div class="row">
 
+                    <div class="row">
                         <div class="col-md-8">
                             <div class="card shadow-lg mb-4">
                                 <div class="card-body">
@@ -41,9 +40,9 @@
                                             <h5>Status</h5>
                                             <p class="card-text">
                                                 @if(\Carbon\Carbon::parse($program->date_limit)->isFuture())
-                                                <span class="btn btn-success btn-lg">Active</span>
+                                                    <span class="btn btn-success btn-lg">Active</span>
                                                 @else
-                                                <span class="badge bg-danger">Closed</span>
+                                                    <span class="badge bg-danger">Closed</span>
                                                 @endif
                                             </p>
                                         </div>
@@ -52,9 +51,9 @@
                                     <div class="row mt-5">
                                         <div class="col-md-12">
                                             @if(Auth::user()->type == 'C')
-                                            <a class="btn btn-outline-danger btn-lg"
-                                                href="{{ route('reports.custom', $program) }}">
-                                                <i class="fas fa-exclamation-triangle"></i> Report Vulnerability</a>
+                                                <a class="btn btn-outline-danger btn-lg" href="{{ route('reports.custom', $program) }}">
+                                                    <i class="fas fa-exclamation-triangle"></i> Report Vulnerability
+                                                </a>
                                             @endif
                                             <a href="{{ route('home') }}" class="btn btn-outline-secondary btn-lg">Back to Programs</a>
                                         </div>
@@ -62,6 +61,7 @@
                                 </div>
                             </div>
                         </div>
+
 
                         <div class="col-md-4">
                             <div class="card shadow-lg mb-4">
@@ -72,15 +72,45 @@
                                     </div>
                                     <h2 class="text-center" style="font-size: 2.5rem; color: #28a745;">${{ number_format($program->rewards_info, 2) }}</h2>
                                     <p class="text-center text-muted">for valid reports</p>
-
+                                </div>
+                            </div>
+                            <div class="card shadow-lg mb-4">
+                                <div class="card-body">
+                                    <h3 class="card-title">Leaderboard - Top 3 Researchers</h3>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Researcher</th>
+                                                    <th>Reports Submitted</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($users as $index => $user)
+                                                    <tr>
+                                                        <td>{{ $index + 1 }}</td>
+                                                        <td>{{ $user->name }}</td>
+                                                        <td>{{ $user->reports_count }}</td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    
+                    <div class="row mt-5">
+                        <div class="col-md-12">
+                            
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-md-12">
-
                             <div class="card">
                                 <div class="card-body">
                                     <h5>Rules & Guidelines</h5>
@@ -92,7 +122,6 @@
 
                 </div>
             </div>
-
         </div>
     </div>
 
