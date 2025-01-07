@@ -37,7 +37,7 @@
                                 <th>Title</th>
                                 <th>Severity</th>
                                 <th>Status</th>
-                                <th>Actions</th>
+                                <th style="width: 200px;">Actions</th> 
                             </tr>
                         </thead>
                         <tbody>
@@ -45,22 +45,30 @@
                             <tr>
                                 <td>{{ $report->title }}</td>
                                 <td>{{ $report->severity }}</td>
+                                @if($report->status != 'in_review')
                                 <td>{{ $report->status }}</td>
-                                <td>
-                                    
-                                    <a class="btn btn-outline-primary" href="{{ route('reports.show', $report) }}">Details</a>
-                                    <a class="btn btn-outline-primary" href="{{ route('reports.edit', $report) }}">Edit</a>
+                                @else
+                                <td>In Review</td>
+                                @endif
+                                <td class="text-center">
+                                    <a class="btn btn-sm btn-outline-primary" href="{{ route('reports.show', $report) }}">Details</a>
+                                    @if($report->status == 'Open' || $report->status == 'in_review')
+                                    <a class="btn btn-sm btn-outline-primary" href="{{ route('reports.edit', $report) }}">Edit</a>
+                                    @else
+                                    @endif
                                     <form method="POST" action="{{ route('reports.destroy', ['report' => $report]) }}" style="display: inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" name="delete" class="btn btn-outline-danger">Delete</button>
+                                        <button type="submit" name="delete" class="btn btn-sm btn-outline-danger">Delete</button>
                                     </form>
+                                    
                                 </td>
-
+                                
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
+
                     @endif
                 </div>
 

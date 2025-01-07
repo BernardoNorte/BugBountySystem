@@ -13,24 +13,44 @@
 <script src="js/demo/chart-area-demo.js" defer></script>
 <script src="js/demo/chart-pie-demo.js" defer></script>
 
-
 <body id="page-top">
     <div id="wrapper">
 
         <div id="content-wrapper" class="d-flex flex-column">
+            @if(Auth::user() && Auth::user()->type == 'E')
             <div class="d-flex justify-content-center mb-4 text-center">
-                @if(Auth::user() == false)
-                <a class="btn btn-outline-danger"
-                    href="{{ route('login') }}">
-                    <i class="fas fa-exclamation-triangle"></i> Report Vulnerability</a>
+                @if(Auth::check())
+                <a class="btn btn-outline-primary"
+                    href="">
+                    <i class="fas fa-plus-circle"></i> Create New Program</a>
                 @else
+                <a class="btn btn-outline-primary"
+                    href="{{ route('login') }}">
+                    <i class="fas fa-plus-circle"></i> Create New Program</a>
+                @endif
+            </div>
+            @elseif(Auth::user() && Auth::user()->type == 'C')
+            <div class="d-flex justify-content-center mb-4 text-center">
+                @if(Auth::check())
                 <a class="btn btn-outline-danger"
                     href="{{ route('reports.create') }}">
                     <i class="fas fa-exclamation-triangle"></i> Report Vulnerability</a>
+                @else
+                <a class="btn btn-outline-danger"
+                    href="{{ route('login') }}">
+                    <i class="fas fa-exclamation-triangle"></i> Report Vulnerability</a>
                 @endif
-
-
             </div>
+            @elseif(!Auth::check())
+            <div class="d-flex justify-content-center mb-4 text-center">
+                <a class="btn btn-outline-danger"
+                    href="{{ route('login') }}">
+                    <i class="fas fa-exclamation-triangle"></i> Report Vulnerability</a>
+            </div>
+            @endif
+
+
+
 
             <div id="content">
                 <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -60,9 +80,7 @@
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                            Created by
-                                        </div>
+
                                         <div class="d-flex align-items-center">
                                             <img src="{{ $program->user->fullPhotoUrl }}" alt="Avatar" class="rounded-circle img-thumbnail" style="width: 40px; height: 40px; margin-right: 10px;">
                                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $program->user->name }}</div>
@@ -71,8 +89,6 @@
                                         <hr>
 
                                         <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $program->name }}</div>
-
-
 
                                         <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                                             Reward
@@ -92,13 +108,11 @@
                                             <td><a class="btn btn-outline-primary"
                                                     href="{{ route('programs.show', ['program' => $program]) }}">
                                                     Details </a>
-
                                         </div>
 
                                     </div>
                                     <div class="col-auto">
                                         <i class="fas fa-bug fa-2x text-gray-300"></i>
-
                                     </div>
                                 </div>
                             </div>
@@ -114,13 +128,6 @@
         </div>
 
     </div>
-
-
-
-    </div>
-
-
-
 </body>
 
 @endsection
@@ -128,8 +135,6 @@
 <style>
     #content-wrapper {
         margin-left: 200px;
-        /* Movido para o CSS */
         transition: margin 0.3s ease;
-        /* Suaviza mudanças */
     }
 </style>

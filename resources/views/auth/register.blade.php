@@ -47,14 +47,14 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="type" class="col-md-4 col-form-label text-md-end">Tipo</label>
+                            <label for="type" class="col-md-4 col-form-label text-md-end">User type</label>
 
                             <div class="col-md-6">
                                 <select id="type" class="form-select @error('type') is-invalid @enderror"
                                     name="type" required>
-                                    <option value="E" {{ old('type', 'E') == 'E' ? 'selected' : '' }}>Empresa
+                                    <option value="E" {{ old('type', 'E') == 'E' ? 'selected' : '' }}>Company
                                     </option>
-                                    <option value="U" {{ old('type', 'U') == 'U' ? 'selected' : '' }}>Utilizador
+                                    <option value="U" {{ old('type', 'C') == 'C' ? 'selected' : '' }}>User
                                     </option>
                                 </select>
                                 @error('type')

@@ -1,6 +1,5 @@
 @extends('layouts.app')
 
-
 @section('content')
 
 @if(Auth::user())
@@ -9,6 +8,7 @@
     <li class="breadcrumb-item"><strong>{{ Auth::user()->name }}</strong></li>
 </ol>
 @endif
+
 <form id="form_report" method="POST" action="{{ route('reports.store') }}" enctype="multipart/form-data" class="d-flex flex-column align-items-center">
     @csrf
     <div class="col-md-6 mb-3 form-floating">
@@ -17,14 +17,7 @@
     </div>
 
     <div class="form-group col-md-6 mb-3 form-floating">
-        <select id="inputProgram" class="form-control" name="program_id">
-            <option value="">Select a Program (Active Programs)</option>
-            @foreach($allPrograms as $program)
-                <option value="{{ $program->id }}" {{ old('program_id', $report->program_id) == $program->id ? 'selected' : '' }}>
-                    {{ $program->name }}
-                </option>
-            @endforeach
-        </select>
+        <input type="text" class="form-control" name="program" id="inputProgram" value="{{ old('program', $program->name) }}" readonly>
         <label for="inputProgram" class="form-label">Program</label>
     </div>
 
@@ -54,10 +47,12 @@
 
     <div class="my-1 col-md-6 d-flex justify-content-end">
         <button type="submit" class="btn btn-primary" name="ok" form="form_report">Submit</button>
-        <a href="{{ route('reports.create') }}" class="btn btn-secondary ms-3">Cancel</a>
+        
+        <a href="{{ url()->current() == route('reports.custom', $program) ? route('programs.show', $program->id) : route('reports.create') }}" class="btn btn-secondary ms-3">
+            Cancel
+        </a>
     </div>
 </form>
-
 
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

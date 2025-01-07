@@ -23,6 +23,7 @@ class Program extends Model
         'rewards_info',
         'is_active',
         'date_limit',
+        'rules',
     ];
 
     public function user(): BelongsTo

@@ -32,12 +32,12 @@ class LoginController extends Controller
 
     public function authenticated(Request $request, $user)
 {
-    // Verifica se o tipo do usuário é admin ('A')
+
     if (Auth::user()->type === 'A') {
-        return redirect()->route('reports.index'); // Redireciona para a página de reports
+        return redirect()->route('home'); 
     }
 
-    // Caso contrário, redireciona para a página padrão
+   
     return redirect()->route('home');
 }
 
