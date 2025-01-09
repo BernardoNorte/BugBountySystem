@@ -11,8 +11,9 @@
 
 <body id="page-top">
     <div id="wrapper">
-        <div id="content-wrapper" class="d-flex flex-column" style="margin-left: 150px;">
+        <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
+                
                 <div class="container-fluid mt-5">
 
                     <div class="row">
@@ -40,9 +41,9 @@
                                             <h5>Status</h5>
                                             <p class="card-text">
                                                 @if(\Carbon\Carbon::parse($program->date_limit)->isFuture())
-                                                    <span class="btn btn-success btn-lg">Active</span>
+                                                <span class="btn btn-success btn-lg">Active</span>
                                                 @else
-                                                    <span class="badge bg-danger">Closed</span>
+                                                <span class="badge bg-danger">Closed</span>
                                                 @endif
                                             </p>
                                         </div>
@@ -50,13 +51,15 @@
 
                                     <div class="row mt-5">
                                         <div class="col-md-12">
-                                            @if(Auth::user()->type == 'C')
-                                                <a class="btn btn-outline-danger btn-lg" href="{{ route('reports.custom', $program) }}">
-                                                    <i class="fas fa-exclamation-triangle"></i> Report Vulnerability
-                                                </a>
-                                            @endif
+                                            <a class="btn btn-outline-danger btn-lg"
+                                                href="{{ Auth::check() ? route('reports.custom', $program) : route('login') }}">
+                                                <i class="fas fa-exclamation-triangle"></i> Report Vulnerability
+                                            </a>
+
                                             <a href="{{ route('home') }}" class="btn btn-outline-secondary btn-lg">Back to Programs</a>
                                         </div>
+
+
                                     </div>
                                 </div>
                             </div>
@@ -88,11 +91,11 @@
                                             </thead>
                                             <tbody>
                                                 @foreach ($users as $index => $user)
-                                                    <tr>
-                                                        <td>{{ $index + 1 }}</td>
-                                                        <td>{{ $user->name }}</td>
-                                                        <td>{{ $user->reports_count }}</td>
-                                                    </tr>
+                                                <tr>
+                                                    <td>{{ $index + 1 }}</td>
+                                                    <td>{{ $user->name }}</td>
+                                                    <td>{{ $user->reports_count }}</td>
+                                                </tr>
                                                 @endforeach
                                             </tbody>
                                         </table>
@@ -102,10 +105,10 @@
                         </div>
                     </div>
 
-                    
+
                     <div class="row mt-5">
                         <div class="col-md-12">
-                            
+
                         </div>
                     </div>
 
@@ -188,4 +191,9 @@
     textarea {
         resize: none;
     }
+    #content-wrapper {
+    margin-left: 200px;
+    transition: margin 0.3s ease;
+}
+
 </style>

@@ -156,6 +156,12 @@
         position: sticky;
         top: 0;
         overflow-y: auto;
+        width: 15%;
+        max-width: 250px;
+        min-width: 180px;
+        height: 100vh;
+        overflow-y: auto;
+        position: sticky;
     }
 
 

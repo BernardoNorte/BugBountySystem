@@ -10,7 +10,7 @@
                 <div class="card-header bg-dark text-light">{{ __('Register') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="row mb-3">
@@ -91,6 +91,12 @@
                                     name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
+
+                        <img src="{{ old('photo_filename') ? asset('storage/photos/' . old('photo_filename')) : 'C:\laragon\www\BugBountySystem\public\storage\img\avatar_unknown.png' }}" alt="Avatar" class="rounded-circle img-thumbnail">
+                        <div class="mb-3 pt-3">
+                            <input type="file" class="form-control" name="photo_filename" id="inputPhotoFileName">
+                        </div>
+
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">

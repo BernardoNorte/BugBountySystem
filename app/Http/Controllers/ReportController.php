@@ -102,6 +102,7 @@ class ReportController extends Controller
                 $path = $file->storeAs('attachments', $fileName, 'public');
             }
         }
+        //dd($request);
 
         $formData = [
             'researcher_id' => Auth::check() ? Auth::user()->id : null,

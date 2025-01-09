@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -63,18 +64,28 @@ class RegisterController extends Controller
      * @return \App\Models\User
      */
     protected function create(array $data)
-    {
-        //dd($data);
-        return DB::transaction(function () use ($data) {
-            $newUser = User::create([
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
-                'type' => $data['type'],
-                'reputation' => 0,
-                'money' => 0,
-            ]);
-            return $newUser;
-        });
-    }
+{
+    return DB::transaction(function () use ($data) {
+
+        $newUser = User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+            'type' => $data['type'],
+            'reputation' => 0,
+            'money' => 0,
+        ]);
+
+
+        if (request()->hasFile('photo_filename') && request()->file('photo_filename')->isValid()) {
+            $file = request()->file('photo_filename');  
+            $path = $file->store('photos', 'public'); 
+            $newUser->photo_filename = basename($path);
+            $newUser->save();
+        }
+
+        return $newUser;
+    });
+}
+
 }

@@ -7,6 +7,8 @@ use App\Models\Program;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class ProgramsController extends Controller
 {
@@ -49,5 +51,42 @@ class ProgramsController extends Controller
             ->get();
         return view('programs.show', compact('program', 'users'));
 
+    }
+
+    public function create(): View
+    {
+        $newProgram = new Program();
+
+        return view('programs.create')
+            ->with('program', $newProgram);
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        //d($request);
+
+        $formData = [
+            'created_by' => Auth::user()->id,
+            'name' => $request['name'],
+            'description' => $request['description'],
+            'scope' => $request['scope'],
+            'rewards_info' => $request['rewards_info'],
+            'is_active' => 1,
+            'date_limit' => $request['date_limit'],
+            'rules' => $request['rules']
+        ];
+
+        $newProgram = Program::create($formData);
+
+        Alert::success('Program Created', 'Program created successfully!');
+
+        return redirect()->route('home');
+    }
+
+    public function destroy(Program $program): RedirectResponse
+    {
+        $program->delete();
+        Alert::success('Program Deleted', 'Program deleted successfully!');
+        return redirect()->back();
     }
 }

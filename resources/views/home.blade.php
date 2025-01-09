@@ -21,7 +21,7 @@
             <div class="d-flex justify-content-center mb-4 text-center">
                 @if(Auth::check())
                 <a class="btn btn-outline-primary"
-                    href="">
+                    href="{{ route('programs.create') }}">
                     <i class="fas fa-plus-circle"></i> Create New Program</a>
                 @else
                 <a class="btn btn-outline-primary"
@@ -74,6 +74,9 @@
                 </div>
 
                 <div class="row">
+                    @if($programs->isEmpty())
+                    <a>N/A Programs</a>
+                    @endif
                     @foreach ($programs as $program)
                     <div class="col-xl-3 col-md-6 mb-4">
                         <div class="card border-left-primary shadow h-100 py-2">
@@ -108,6 +111,15 @@
                                             <td><a class="btn btn-outline-primary"
                                                     href="{{ route('programs.show', ['program' => $program]) }}">
                                                     Details </a>
+                                                @auth
+                                                    @if(Auth::user()->type != 'C')
+                                                    <form method="POST" action="{{ route('programs.destroy', ['program' => $program]) }}" style="display: inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" name="delete" class="btn btn-outline-danger">Delete</button>
+                                                    </form>
+                                                    @endif
+                                                @endauth
                                         </div>
 
                                     </div>

@@ -5,7 +5,7 @@
 @if(Auth::user())
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-    <li class="breadcrumb-item"><strong>{{ Auth::user()->name }}</strong></li>
+    <li class="breadcrumb-item"><strong>New Report</strong></li>
 </ol>
 @endif
 
@@ -17,9 +17,11 @@
     </div>
 
     <div class="form-group col-md-6 mb-3 form-floating">
-        <input type="text" class="form-control" name="program" id="inputProgram" value="{{ old('program', $program->name) }}" readonly>
-        <label for="inputProgram" class="form-label">Program</label>
+        <input type="text" class="form-control" id="inputProgramName" value="{{ $program->name }}" readonly>
+        <label for="inputProgramName" class="form-label">Program</label>
+        <input type="hidden" name="program_id" value="{{ $program->id }}">
     </div>
+
 
     <div class="form-floating col-md-6 mb-3">
         <textarea class="form-control" name="description" id="inputDescription" rows="5" maxlength="5000">{{ old('description', $report->description) }}</textarea>
@@ -47,7 +49,7 @@
 
     <div class="my-1 col-md-6 d-flex justify-content-end">
         <button type="submit" class="btn btn-primary" name="ok" form="form_report">Submit</button>
-        
+
         <a href="{{ url()->current() == route('reports.custom', $program) ? route('programs.show', $program->id) : route('reports.create') }}" class="btn btn-secondary ms-3">
             Cancel
         </a>

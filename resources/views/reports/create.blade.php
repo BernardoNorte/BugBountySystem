@@ -6,7 +6,7 @@
 @if(Auth::user())
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
-    <li class="breadcrumb-item"><strong>{{ Auth::user()->name }}</strong></li>
+    <li class="breadcrumb-item"><strong>New Report</strong></li>
 </ol>
 @endif
 <form id="form_report" method="POST" action="{{ route('reports.store') }}" enctype="multipart/form-data" class="d-flex flex-column align-items-center">
