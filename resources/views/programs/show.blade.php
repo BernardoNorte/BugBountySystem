@@ -13,7 +13,7 @@
     <div id="wrapper">
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
-                
+
                 <div class="container-fluid mt-5">
 
                     <div class="row">
@@ -51,10 +51,19 @@
 
                                     <div class="row mt-5">
                                         <div class="col-md-12">
+                                            @if(Auth::check() && Auth::user()->type === 'C')
                                             <a class="btn btn-outline-danger btn-lg"
-                                                href="{{ Auth::check() ? route('reports.custom', $program) : route('login') }}">
+                                                href="{{ route('reports.custom', $program) }}">
                                                 <i class="fas fa-exclamation-triangle"></i> Report Vulnerability
                                             </a>
+                                            @elseif(Auth::guest())
+                                            <a class="btn btn-outline-danger btn-lg"
+                                                href="{{ route('login') }}">
+                                                <i class="fas fa-exclamation-triangle"></i> Report Vulnerability
+                                            </a>
+                                            @endif
+
+
 
                                             <a href="{{ route('home') }}" class="btn btn-outline-secondary btn-lg">Back to Programs</a>
                                         </div>
@@ -191,9 +200,9 @@
     textarea {
         resize: none;
     }
-    #content-wrapper {
-    margin-left: 200px;
-    transition: margin 0.3s ease;
-}
 
+    #content-wrapper {
+        margin-left: 200px;
+        transition: margin 0.3s ease;
+    }
 </style>

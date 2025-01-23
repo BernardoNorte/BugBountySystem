@@ -12,7 +12,7 @@ class RewardsController extends Controller
     public function myPayments()
     {
         $user = Auth::user();
-        if ($user->type == 'E') {
+        if ($user->type == 'E' || $user->type == 'A') {
             $payments = Reward::where('created_by', $user->id)->paginate(10);
             return view('rewards.myRewards', compact('payments'));
         }else if ($user->type == 'C')

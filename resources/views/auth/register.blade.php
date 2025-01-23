@@ -54,7 +54,7 @@
                                     name="type" required>
                                     <option value="E" {{ old('type', 'E') == 'E' ? 'selected' : '' }}>Company
                                     </option>
-                                    <option value="U" {{ old('type', 'C') == 'C' ? 'selected' : '' }}>User
+                                    <option value="C" {{ old('type', 'C') == 'C' ? 'selected' : '' }}>User
                                     </option>
                                 </select>
                                 @error('type')
